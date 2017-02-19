@@ -15,13 +15,14 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
 	var user = req.body;
 	var newUser = new Users(user);
+	
 	newUser.save(function(err, users){
 		if(err)
 			return next(err);
 		res.json(users);
 	});
 	/*
-	Users.create(req.body, function(err, users) {
+	Users.update(req.body, function(err, users) {
 		if(err)
 			return next(err);
 		res.json(users);
