@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var cassandra = require('cassandra-driver');
+var async = require('async');
 
 var index = require('./routes/index');
 var usersRoutes = require('./routes/usersRoutes');
@@ -52,4 +54,16 @@ mongoose.connect('mongodb://localhost/travellers')
 	.then(() => console.log("Connection Successful"))
 		.catch((err) => console.error(err));
 
+
+exports.casClient = function connectToCassandra(){
+
+}
+var client = new cassandra.Client({contactPoints: ['127.0.0.1'], keyspace: 'travellers'});
+client.connect(function(err){
+  if(err)
+    console.log(err);
+  else {
+    console.log("Connection to cassandra successful");
+  }
+});
 module.exports = app;

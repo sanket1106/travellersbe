@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+//var client = require('cassandra-driver');
 
 var mongoose = require('mongoose');
 var Users = require('../models/users.js');
@@ -18,10 +19,19 @@ router.get('/', function(req, res, next) {
 	});
 });
 
+router.get('/getallusers', function(req, res, next) {
+	const query = 'SELECT * FROM users';
+	client.execute(query, function(err, result) {
+		if(err)
+			console.log(err);
+		else
+			res.json(result);
+	});
+});
 router.post('/', function(req, res, next) {
 	var user = req.body;
 	var newUser = new Users(user);
-	
+
 	newUser.save(function(err, users){
 		if(err)
 			return next(err);
@@ -47,7 +57,7 @@ router.get('/login', function(req, res, next) {
 		//res.json(user);
 		if(user.length != 0)
 			res.json(responseService.successResponse(user));
-		else 
+		else
 			res.json(responseService.notFoundResponse());
 	});
 });
