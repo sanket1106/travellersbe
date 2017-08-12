@@ -58,6 +58,7 @@ mongoose.connect('mongodb://localhost/travellers')
 exports.casClient = function connectToCassandra(){
 
 }
+/*
 var client = new cassandra.Client({contactPoints: ['127.0.0.1'], keyspace: 'travellers'});
 client.connect(function(err){
   if(err)
@@ -66,4 +67,6 @@ client.connect(function(err){
     console.log("Connection to cassandra successful");
   }
 });
+*/
+app.listen(3000);
 module.exports = app;
