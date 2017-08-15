@@ -12,6 +12,11 @@ var index = require('./routes/index');
 var usersRoutes = require('./routes/usersRoutes');
 var regionRoutes = require('./routes/regionRoutes');
 
+var searchClient = require('./config/connections/searchConnect');
+searchClient.count({index: 'citycountry',type: 'citycountry'},function(err,resp,status) {
+  console.log("-- citycountry --",resp);
+});
+
 mongoose.Promise = global.Promise;
 
 var app = express();
