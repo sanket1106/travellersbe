@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+//var mongoose = require('mongoose');
 var cassandra = require('cassandra-driver');
 var async = require('async');
 
@@ -17,7 +17,7 @@ searchClient.count({index: 'citycountry',type: 'citycountry'},function(err,resp,
   console.log("-- citycountry --",resp);
 });
 
-mongoose.Promise = global.Promise;
+var dbClient = require('./config/connections/dbConnect');
 
 var app = express();
 
@@ -55,10 +55,11 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+/*
 mongoose.connect('mongodb://localhost/travellers')
 	.then(() => console.log("Connection Successful"))
 		.catch((err) => console.error(err));
-
+*/
 
 exports.casClient = function connectToCassandra(){
 

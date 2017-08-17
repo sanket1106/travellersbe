@@ -5,6 +5,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Users = require('../models/users.js');
 var responseService = require('../services/commonResponseService.js');
+var userService = require('../services/userService.js');
 
 router.get('/', function(req, res, next) {
 	Users.find(function(err, users) {
@@ -48,8 +49,11 @@ router.post('/', function(req, res, next) {
 
 router.get('/login', function(req, res, next) {
 	var emailId = req.query.email;
+	return userService.userByEmailId(emailId).then(function(data){
+		return res.json(data);
+	});
+	/*
 	var query = Users.find({'emailId':emailId});
-
 	query.exec(function(err, user){
 		if(err)
 			//return next(err);
@@ -60,6 +64,11 @@ router.get('/login', function(req, res, next) {
 		else
 			res.json(responseService.notFoundResponse());
 	});
+	*/
 });
+
+var callUserService = function(callback){
+	return callback('shruti.k@gmail.com');
+};
 
 module.exports = router;
