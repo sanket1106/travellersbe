@@ -7,17 +7,30 @@ exports.userByEmailId = function getUserByEmailId(emailId){
 	var query = Users.find({'emailId':emailId});
   return query.exec(function(err, user){
 		if(err)
-			//return next(err);
-		return responseService.errorResponse(err, "Something went wrong!");
-		//res.json(user);
+		  return responseService.errorResponse(err, "Something went wrong!");
 		if(user.length != 0){
       console.log("Found : "+user);
-      //callback(user);
-			return responseService.successResponse(user);
+      return responseService.successResponse(user);
     }
 		else {
       console.log("Not Found");
 			return responseService.notFoundResponse();
     }
 	});
+}
+
+
+exports.allUsers = function getAllUsers(){
+  return Users.find(function(err, users) {
+    if(err){
+      return responseService.errorResponse(err, "Something went wrong!");
+    }
+
+    if(users.length != 0){
+      return responseService.successResponse(users);
+    }
+    else {
+      return responseService.notFoundResponse();
+    }
+  });
 }

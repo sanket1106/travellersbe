@@ -8,6 +8,10 @@ var responseService = require('../services/commonResponseService.js');
 var userService = require('../services/userService.js');
 
 router.get('/', function(req, res, next) {
+	return userService.allUsers().then(function(data) {
+			return res.json(data);
+	});
+	/*
 	Users.find(function(err, users) {
 		if(err)
 			return res.json(responseService.errorResponse(err));
@@ -18,8 +22,12 @@ router.get('/', function(req, res, next) {
 			res.json(responseService.notFoundResponse());
 		//res.json(users);
 	});
+	*/
 });
 
+/*
+	This route is for cassandra
+*/
 router.get('/getallusers', function(req, res, next) {
 	const query = 'SELECT * FROM users';
 	client.execute(query, function(err, result) {
@@ -29,6 +37,9 @@ router.get('/getallusers', function(req, res, next) {
 			res.json(result);
 	});
 });
+/**/
+
+
 router.post('/', function(req, res, next) {
 	var user = req.body;
 	var newUser = new Users(user);
@@ -66,9 +77,5 @@ router.get('/login', function(req, res, next) {
 	});
 	*/
 });
-
-var callUserService = function(callback){
-	return callback('shruti.k@gmail.com');
-};
 
 module.exports = router;

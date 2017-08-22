@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var cityCountryMaster = new mongoose.Schema({
+var cityCountryMasterSchema = new mongoose.Schema({
 	_id : { type : Number, required : false},
     localeCode : { type : String, required : false},
     continentCode : { type : String, required : false},
@@ -13,4 +13,4 @@ var cityCountryMaster = new mongoose.Schema({
     timeZone : { type : String, required : false}
 });
 
-module.exports = mongoose.model('CityCountryMaster', cityCountryMaster, 'CityCountryMaster');
+module.exports = mongoose.model('CityCountryMaster', cityCountryMasterSchema, 'CityCountryMaster');
