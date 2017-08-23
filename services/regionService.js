@@ -9,10 +9,8 @@ exports.pushCityCountryMasterToElastic = function pushCityCountryMasterToElastic
       return responseService.errorResponse(err, "Something went wrong!");
     }
     console.log("length : "+cityCountryMasters.length);
-    var cityCountries = new Array(10);
     for(let i = 0; i < 5; i++){
       var ccm = cityCountryMasters[i];
-      var ccmIndex = {index: {_index: 'citycountry', _type: 'citycountry', _id: ccm._id }};
       esClient.bulk({
         body : [
           {index: {_index: 'citycountry', _type: 'citycountry', _id: ccm._id }},
@@ -21,16 +19,24 @@ exports.pushCityCountryMasterToElastic = function pushCityCountryMasterToElastic
       }, function(err, response) {
         console.log(response);
       });
-      //console.log("index object : "+ccmIndex);
-      //var ccmDoc = {
-        //  "cityName":ccm.cityName,
-        //  "countryName":ccm.countryName
-      //}
-      //console.log("doc object : "+ccmDoc);
-      //cityCountries.push(ccmIndex);
-      //cityCountries.push(ccmDoc);
     }
-    //console.log("array : "+cityCountries);
     return responseService.successResponse("Success");
+  });
+}
+
+exports.search = function search(searchString){
+  esClient.search({
+    index: 'citycountry',
+    body:{
+      query: {
+        multi_match: {
+          query : searchString,
+          fields: ["countryName", "cityName"]
+        }
+      }
+    }
+  }, function(error, response){
+    console.log(response);
+    console.log(response.hits.hits);
   });
 }
